@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  db:
+    image: mysql/mysql-server:8.0
+    container_name: django-mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"    
+    volumes:
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+      - ./db/data:/var/lib/mysql
+    environment:
+      - TZ=Asia/Seoul
