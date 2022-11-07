@@ -9,8 +9,27 @@ USE board;
 
 CREATE TABLE users
 (
-    uuid    VARBINARY(16)   NOT NULL UNIQUE,
+    uuid    CHAR(36)        NOT NULL UNIQUE,
     id      VARCHAR(20)     NOT NULL UNIQUE,
     pw      VARCHAR(100)    NOT NULL,
-    primary key(uuid)
+    PRIMARY KEY(uuid)
+); 
+
+CREATE TABLE boards
+(
+    id          INT(11)        UNSIGNED NOT NULL AUTO_INCREMENT,
+    title       VARCHAR(100)   NOT NULL,
+    author      VARCHAR(20)    NOT NULL,
+    reg_date    DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(id),
+    INDEX author_idx(author),
+    FOREIGN KEY(author) REFERENCES users(id)
+);
+
+CREATE TABLE board_contents
+(
+    id       INT(11)    UNSIGNED NOT NULL,     
+    content  TEXT,
+    INDEX board_idx(id),
+    FOREIGN KEY (id) REFERENCES boards(id)
 );
