@@ -9,11 +9,11 @@ USE board;
 
 CREATE TABLE user
 (
-    uuid            CHAR(36)        NOT NULL,
+    id              CHAR(36)        NOT NULL,
     username        VARCHAR(20)     NOT NULL UNIQUE,
     password        VARCHAR(100)    NOT NULL,
     created_date    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY(uuid)
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE post
@@ -23,9 +23,9 @@ CREATE TABLE post
     brief_description   VARCHAR(255),           
     created_date        DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_date        DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,       
-    user_uuid           CHAR(36)       NOT NULL,
-    INDEX user_idx(user_uuid),
-    FOREIGN KEY(user_uuid) REFERENCES user(uuid),
+    user_id             CHAR(36)       NOT NULL,
+    INDEX idx_user_id(user_id),
+    FOREIGN KEY(user_id) REFERENCES user(id),
     PRIMARY KEY(id)
 );
 
