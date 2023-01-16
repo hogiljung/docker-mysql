@@ -7,32 +7,33 @@ FLUSH PRIVILEGES;
 CREATE DATABASE board;
 USE board;
 
-CREATE TABLE account
+CREATE TABLE user
 (
-    uuid        CHAR(36)        NOT NULL,
-    id          VARCHAR(20)     NOT NULL UNIQUE,
-    pw          VARCHAR(100)    NOT NULL,
-    signup_date DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    uuid            CHAR(36)        NOT NULL,
+    username        VARCHAR(20)     NOT NULL UNIQUE,
+    password        VARCHAR(100)    NOT NULL,
+    created_date    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(uuid)
 );
 
-CREATE TABLE board
+CREATE TABLE post
 (
-    id              INT            UNSIGNED NOT NULL AUTO_INCREMENT,
-    title           VARCHAR(100)   NOT NULL,
-    register_date   DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    modify_date     DATETIME,       
-    account_uuid    CHAR(36)       NOT NULL,
-    INDEX account_idx(account_uuid),
-    FOREIGN KEY(account_uuid) REFERENCES account(uuid),
+    id                  INT            UNSIGNED NOT NULL AUTO_INCREMENT,
+    title               VARCHAR(100)   NOT NULL,
+    brief_description   VARCHAR(255),           
+    created_date        DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date        DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,       
+    user_uuid           CHAR(36)       NOT NULL,
+    INDEX user_idx(user_uuid),
+    FOREIGN KEY(user_uuid) REFERENCES user(uuid),
     PRIMARY KEY(id)
 );
 
-CREATE TABLE board_content
+CREATE TABLE post_content
 (
-    board_id        INT     UNSIGNED NOT NULL,
+    post_id         INT     UNSIGNED NOT NULL,
     content         TEXT,
     large_content   BLOB,
-    FOREIGN KEY(board_id) REFERENCES board(id) ON DELETE CASCADE,
-    PRIMARY KEY(board_id)
+    FOREIGN KEY(post_id) REFERENCES post(id) ON DELETE CASCADE,
+    PRIMARY KEY(post_id)
 );
